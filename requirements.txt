@@ -6,5 +6,7 @@ matplotlib
 scikit-learn
 pymongo
 certifi
-
+scipy
+dill
+pyaml
 ##-e .
