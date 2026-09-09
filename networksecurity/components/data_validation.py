@@ -80,6 +80,9 @@ class DataValidation:
         except Exception as e:
             raise NetworkSecurityException(e, sys)
 
+    from networksecurity.utils.ml_utils.mlflow_utils import capture_run_logs
+
+    @capture_run_logs
     def initiate_data_validation(self) -> DataValidationArtifact:
         try:
             train_file_path = self.data_ingestion_artifact.train_file_path

@@ -1,0 +1,23 @@
+[ 2026-09-09 16:31:09,091 ] 20 root - INFO - Initiate the data ingestion
+[ 2026-09-09 16:31:15,797 ] 66 root - INFO - Performed train test split on the dataset
+[ 2026-09-09 16:31:15,797 ] 67 root - INFO - Existing data ingestion component. Train test split is done and train and test file is created.
+[ 2026-09-09 16:31:15,799 ] 72 root - INFO - Exporting training dataset to file: [Artifacts\09092026__163109\data_ingestion\train.csv]
+[ 2026-09-09 16:31:15,884 ] 78 root - INFO - Exporting test dataset to file: [Artifacts\09092026__163109\data_ingestion\test.csv]
+[ 2026-09-09 16:31:15,884 ] 22 root - INFO - Data Initiation Completed
+[ 2026-09-09 16:31:15,917 ] 26 root - INFO - Initiate the data Validation
+[ 2026-09-09 16:31:16,045 ] 31 root - INFO - Required number of columns: 31
+[ 2026-09-09 16:31:16,047 ] 32 root - INFO - Data frame has columns: 31
+[ 2026-09-09 16:31:16,047 ] 31 root - INFO - Required number of columns: 31
+[ 2026-09-09 16:31:16,047 ] 32 root - INFO - Data frame has columns: 31
+[ 2026-09-09 16:31:16,047 ] 52 root - INFO - Missing numerical columns: []
+[ 2026-09-09 16:31:16,274 ] 28 root - INFO - data Validation Completed
+[ 2026-09-09 16:31:16,274 ] 31 root - INFO - data Transformation started
+[ 2026-09-09 16:31:16,384 ] 49 root - INFO - Entered the save_object method MainUtils class
+[ 2026-09-09 16:31:16,411 ] 55 root - INFO - Existed the save_object method of Mainutils class
+[ 2026-09-09 16:31:16,417 ] 75 root - INFO - Data transformation artifact created: DataTransformationArtifact(transformed_object_file_path='Artifacts\\09092026__163109\\data_transformation\\transfromed_object\\preprocessing.pkl', transformed_train_file_path='Artifacts\\09092026__163109\\data_transformation\\transformed\\train.npy', transformed_test_file_path='Artifacts\\09092026__163109\\data_transformation\\transformed\\test.npy')
+[ 2026-09-09 16:31:16,420 ] 35 root - INFO - data Transformation completed
+[ 2026-09-09 16:31:16,420 ] 37 root - INFO - Model Training sstared
+[ 2026-09-09 16:35:43,680 ] 49 root - INFO - Entered the save_object method MainUtils class
+[ 2026-09-09 16:35:43,713 ] 55 root - INFO - Existed the save_object method of Mainutils class
+[ 2026-09-09 16:35:43,713 ] 174 root - INFO - Model trainer artifact:ModelTrainerArtifact(trained_model_file_path='Artifacts\\09092026__163109\\model_trainer\\trained_model\\model.pkl', train_metric_artifact=ClassificationMetricArtifact(f1_score=0.9915470007129036, precision_score=0.9900345739271914, recall_score=0.993064055487556), test_metric_artifact=ClassificationMetricArtifact(f1_score=0.9699367088607594, precision_score=0.9630793401413983, recall_score=0.9768924302788845))
+[ 2026-09-09 16:35:43,730 ] 42 root - INFO - Model Training artifact created

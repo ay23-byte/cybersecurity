@@ -78,6 +78,9 @@ class DataIngestion:
             logging.info(f"Exporting test dataset to file: [{self.data_ingestion_config.test_file_path}]")
         except Exception as e:
             raise NetworkSecurityException(e, sys)
+    from networksecurity.utils.ml_utils.mlflow_utils import capture_run_logs
+
+    @capture_run_logs
     def initiate_data_ingestion(self):
         try:
            dataframe=self.export_collection_as_dataframe()

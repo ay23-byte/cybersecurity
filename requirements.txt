@@ -1,12 +1,14 @@
+
 python-dotenv
 pandas
-numpy 
-seaborn
-matplotlib
-scikit-learn
+numpy
 pymongo
 certifi
-scipy
-dill
+pymongo[srv]
+scikit-learn
+mlflow
 pyaml
-##-e .
+dagshub
+fastapi
+uvicorn
+python-multipart

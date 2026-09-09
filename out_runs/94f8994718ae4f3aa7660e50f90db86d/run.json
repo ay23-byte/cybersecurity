@@ -1,0 +1,26 @@
+{
+  "info": {
+    "run_id": "94f8994718ae4f3aa7660e50f90db86d",
+    "experiment_id": "0",
+    "status": "FINISHED",
+    "start_time": 1788945788802,
+    "end_time": 1788945798324,
+    "user_id": "AYUSH",
+    "lifecycle_stage": "active"
+  },
+  "metrics": {
+    "f1_score": 0.9727595736281089,
+    "precision_score": 0.9640062597809077,
+    "recall_score": 0.9816733067729083
+  },
+  "params": {},
+  "tags": {
+    "mlflow.user": "AYUSH",
+    "mlflow.source.name": "main.py",
+    "mlflow.source.type": "LOCAL",
+    "mlflow.source.git.commit": "3ec7cabdb084b2111fa3ef450ceac559d4614edc",
+    "mlflow.source.git.branch": "main",
+    "mlflow.source.git.repoURL": "https://github.com/ay23-byte/cybersecurity.git",
+    "mlflow.runName": "adaptable-shoat-394"
+  }
+}

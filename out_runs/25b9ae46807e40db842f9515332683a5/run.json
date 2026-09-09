@@ -1,0 +1,26 @@
+{
+  "info": {
+    "run_id": "25b9ae46807e40db842f9515332683a5",
+    "experiment_id": "0",
+    "status": "FINISHED",
+    "start_time": 1788953108119,
+    "end_time": 1788953118406,
+    "user_id": "AYUSH",
+    "lifecycle_stage": "active"
+  },
+  "metrics": {
+    "f1_score": 0.9669321619869357,
+    "precision_score": 0.9670952321268963,
+    "recall_score": 0.9669832654907282
+  },
+  "params": {},
+  "tags": {
+    "mlflow.user": "AYUSH",
+    "mlflow.source.name": "main.py",
+    "mlflow.source.type": "LOCAL",
+    "mlflow.source.git.commit": "3ec7cabdb084b2111fa3ef450ceac559d4614edc",
+    "mlflow.source.git.branch": "main",
+    "mlflow.source.git.repoURL": "https://github.com/ay23-byte/cybersecurity.git",
+    "mlflow.runName": "nervous-zebra-662"
+  }
+}
