@@ -1,1 +1,0 @@
-2026/09/09 18:37:27 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
