@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "F:/NetworkSecurity/myenv/Scripts/python.exe",
+  "python.analysis.extraPaths": [
+    "F:/NetworkSecurity/myenv/Lib/site-packages"
+  ],
+  "python.analysis.logLevel": "Error"
+}

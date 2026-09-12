@@ -31,7 +31,12 @@ class DataIngestionConfig:
 
 
 class DataValidationConfig:
-    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+    def __init__(
+        self,
+        training_pipeline_config: TrainingPipelineConfig,
+        data_ingestion_artifact=None,
+        data_validation_config=None,
+    ):
         self.data_validation_dir:str=os.path.join(training_pipeline_config.artifact_dir,training_pipeline.DATA_VALIDATION_DIR_NAME)
         self.valid_data_dir:str=os.path.join(self.data_validation_dir,training_pipeline.DATA_VALIDATION_VALID_DIR)
         self.invalid_data_dir:str=os.path.join(self.data_validation_dir,training_pipeline.DATA_VALIDATION_INVALID_DIR)
@@ -43,7 +48,12 @@ class DataValidationConfig:
         self.drift_report_file_path:str=os.path.join(self.drift_report_dir,training_pipeline.DATA_VALIDATION_DRIFT_REPORT_FILE_NAME)
 
 class DataTransformationConfig:
-     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+     def __init__(
+         self,
+         training_pipeline_config: TrainingPipelineConfig,
+         data_ingestion_artifact=None,
+         data_transformation_config=None,
+     ):
         self.data_transformation_dir: str = os.path.join( training_pipeline_config.artifact_dir,training_pipeline.DATA_TRANSFORMATION_DIR_NAME )
         self.transformed_train_file_path: str = os.path.join( self.data_transformation_dir,training_pipeline.DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR,
             training_pipeline.TRAIN_FILE_NAME.replace("csv", "npy"),)

@@ -17,6 +17,8 @@ from sklearn.ensemble import(
     GradientBoostingClassifier,
     RandomForestClassifier
 )# type: ignore
+import dagshub# type: ignore
+dagshub.init(repo_owner='ay23-byte', repo_name='cybersecurity', mlflow=True)
 import mlflow# type: ignore
 import tempfile
 import contextlib
@@ -163,6 +165,8 @@ class ModelTrainer:
         save_object(self.model_trainer_config.trained_model_file_path, obj=network_model)
         print(f"Saved trained model to: {self.model_trainer_config.trained_model_file_path}")
 
+        save_object("finals_model/model.pkl",best_model)
+        
         ## Model Trainer Artifact
         model_trainer_artifact = ModelTrainerArtifact(
             trained_model_file_path=self.model_trainer_config.trained_model_file_path,

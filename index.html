@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Network Security Training</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            width: 420px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .output {
+            margin-top: 20px;
+            text-align: left;
+            background: #f8fafc;
+            border: 1px solid #dbe4f0;
+            border-radius: 8px;
+            padding: 14px;
+            min-height: 80px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: #111827;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Train Network Security Model</h2>
+        <button id="trainBtn">Start Training</button>
+        <div id="output" class="output">Waiting for request...</div>
+    </div>
+
+    <script>
+        const trainBtn = document.getElementById('trainBtn');
+        const output = document.getElementById('output');
+
+        trainBtn.addEventListener('click', async () => {
+            output.textContent = 'Sending training request...';
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/train', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ trigger: 'manual_train' })
+                });
+
+                const data = await response.json();
+                output.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.textContent = 'Error: ' + error.message;
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
