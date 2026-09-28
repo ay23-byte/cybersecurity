@@ -1,18 +1,28 @@
-name: workflow
+name: NetworkSecurity CI/CD
 
 on:
-    push:
-        branches: [main]
-        paths-ignore:
-                -'README.md'
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "README.md"
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
+
+  # --------------------------------------------------
+  # CONTINUOUS INTEGRATION
+  # --------------------------------------------------
   integration:
     name: Continuous Integration
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Lint code
         run: echo "Linting repository"
@@ -20,3 +30,99 @@ jobs:
       - name: Run unit tests
         run: echo "Running unit tests"
 
+
+  # --------------------------------------------------
+  # BUILD AND PUSH DOCKER IMAGE TO ECR
+  # --------------------------------------------------
+  build-and-push-ecr-image:
+    name: Build and Push Docker Image
+    needs: integration
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: ap-south-1
+      ECR_REGISTRY: 740021355491.dkr.ecr.ap-south-1.amazonaws.com
+      ECR_REPOSITORY: networksecurity
+      IMAGE_TAG: latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::740021355491:role/GitHubActions-NetworkSecurity
+          aws-region: ap-south-1
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push \
+            $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+
+  # --------------------------------------------------
+  # DEPLOY TO EC2
+  # --------------------------------------------------
+  Continuous-Deployment:
+    name: Deploy to EC2
+    needs: build-and-push-ecr-image
+
+    # IMPORTANT:
+    # This requires a GitHub self-hosted runner
+    # installed on your EC2 instance.
+    runs-on: self-hosted
+
+    env:
+      AWS_REGION: ap-south-1
+      ECR_REGISTRY: 740021355491.dkr.ecr.ap-south-1.amazonaws.com
+      ECR_REPOSITORY: networksecurity
+      IMAGE_TAG: latest
+      CONTAINER_NAME: networksecurity-container
+
+    steps:
+      - name: Configure AWS credentials
+        run: |
+          aws sts get-caller-identity
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password \
+            --region $AWS_REGION | \
+            docker login \
+            --username AWS \
+            --password-stdin $ECR_REGISTRY
+
+      - name: Pull latest Docker image
+        run: |
+          docker pull \
+            $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Stop old container
+        run: |
+          docker rm -f $CONTAINER_NAME || true
+
+      - name: Run new Docker container
+        run: |
+          docker run -d \
+            --name $CONTAINER_NAME \
+            --env-file /home/ec2-user/NetworkSecurity/.env \
+            -p 8001:8000 \
+            $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Check container
+        run: |
+          docker ps
+          docker logs --tail 50 $CONTAINER_NAME
+
+      - name: Clean unused Docker resources
+        run: |
+          docker system prune -f
