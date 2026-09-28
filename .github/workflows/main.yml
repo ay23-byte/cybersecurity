@@ -25,17 +25,25 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout OIDC debugger
-        uses: actions/checkout@v4
-        with:
-          repository: github/actions-oidc-debugger
-          ref: main
-          path: .github/actions/actions-oidc-debugger
+      - name: Get OIDC token claims
+        shell: bash
+        run: |
+          RESPONSE=$(curl -sS \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com")
 
-      - name: Print OIDC claims
-        uses: ./.github/actions/actions-oidc-debugger
-        with:
-          audience: sts.amazonaws.com
+          TOKEN=$(echo "$RESPONSE" | jq -r '.value')
+
+          PAYLOAD=$(echo "$TOKEN" | cut -d '.' -f2)
+
+          # Add base64 padding
+          REMAINDER=$((${#PAYLOAD} % 4))
+          if [ "$REMAINDER" -ne 0 ]; then
+            PADDING=$((4 - REMAINDER))
+            PAYLOAD="${PAYLOAD}$(printf '=%.0s' $(seq 1 $PADDING))"
+          fi
+
+          echo "$PAYLOAD" | base64 -d 2>/dev/null | jq '{sub, aud}'
 
 
   # --------------------------------------------------
