@@ -14,6 +14,31 @@ permissions:
 jobs:
 
   # --------------------------------------------------
+  # TEMPORARY OIDC DEBUGGER
+  # --------------------------------------------------
+  oidc-debug:
+    name: Debug GitHub OIDC
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout OIDC debugger
+        uses: actions/checkout@v4
+        with:
+          repository: github/actions-oidc-debugger
+          ref: main
+          path: .github/actions/actions-oidc-debugger
+
+      - name: Print OIDC claims
+        uses: ./.github/actions/actions-oidc-debugger
+        with:
+          audience: sts.amazonaws.com
+
+
+  # --------------------------------------------------
   # CONTINUOUS INTEGRATION
   # --------------------------------------------------
   integration:
@@ -75,10 +100,6 @@ jobs:
   Continuous-Deployment:
     name: Deploy to EC2
     needs: build-and-push-ecr-image
-
-    # IMPORTANT:
-    # This requires a GitHub self-hosted runner
-    # installed on your EC2 instance.
     runs-on: self-hosted
 
     env:
@@ -89,7 +110,7 @@ jobs:
       CONTAINER_NAME: networksecurity-container
 
     steps:
-      - name: Configure AWS credentials
+      - name: Check AWS identity
         run: |
           aws sts get-caller-identity
 
